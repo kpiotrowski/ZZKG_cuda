@@ -1,3 +1,11 @@
 #pragma once
 
 int DEBUG = 1;
+
+int BLOCK_GRID_DIM = 3;
+unsigned long long GRID_MAX_SIZE = 65535;
+unsigned long long GRID_MAX_BLOCKS = GRID_MAX_SIZE*GRID_MAX_SIZE*GRID_MAX_SIZE;
+
+int BLOCK_THREADS = 1024;
+int THREAD_BLOCK_DIM = 1;
+int THREAD_BLOCK_SIZE = 1024;

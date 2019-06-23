@@ -3,13 +3,13 @@
 #include "../data.h"
 
 void printOutput(std::vector<struct patternResult> result) {
-    for (auto &i : result) {
-        for( auto &j: i.result){
-            std::cout << j.first << "=" << j.second << " ";
+    for (int i=0; i<result.size(); i++) {
+        for (int j=0; i<result[i].result.size(); j++){
+            std::cout << result[i].result[j].first << "=" << result[i].result[j].second << " ";
         }
         std::cout << ": ";
-        for( auto &j: i.sequence){
-            std::cout << j << " ";
+        for (int j=0; i<result[i].sequence.size(); j++){
+            std::cout << result[i].sequence[j] << " ";
         }
         std::cout << std::endl;
     }

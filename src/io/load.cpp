@@ -5,6 +5,8 @@
 #include <string.h>
 #include <vector>
 #include <boost/algorithm/string/split.hpp>
+#include <thrust/host_vector.h>
+#include <thrust/device_vector.h>
 #include <boost/algorithm/string/classification.hpp>
 #include "../config.h"
 
@@ -15,19 +17,21 @@ std::vector<std::string> splitLine(std::string line) {
     return result;
 }
 
-void loadInput(char* fileName, std::vector<char> &pattern, std::vector<int> &sequence) {
+void loadInput(char* fileName, thrust::host_vector<char> &pattern, thrust::host_vector<int> &sequence) {
     std::string line;
 
     std::ifstream inputFile(fileName);
     if (inputFile.is_open()){
         if ( std::getline (inputFile, line)){
-            for ( auto &i : splitLine(line) ) {
-                pattern.push_back(i.c_str()[0]);
+            std::vector<std::string> sl = splitLine(line);
+            for (int i = 0; i<sl.size(); i++) {
+                pattern.push_back(sl[i].c_str()[0]);
             }
         }
         if ( std::getline (inputFile, line)){
-            for ( auto &i : splitLine(line) ) {
-                sequence.push_back(atoi(i.c_str()));
+            std::vector<std::string> sl = splitLine(line);
+            for (int i = 0; i<sl.size(); i++) {
+                sequence.push_back(atoi(sl[i].c_str()));
             }
         }
         inputFile.close();
@@ -37,8 +41,10 @@ void loadInput(char* fileName, std::vector<char> &pattern, std::vector<int> &seq
 
     if (DEBUG) {
         std::cout << "Input pattern: " << std::endl;
-        for ( auto &i : pattern ) std::cout << i << " ";
+        for (int i=0; i<pattern.size(); i++)
+            std::cout << pattern[i] << " ";
         std::cout << std::endl << "Input sequence: " << std::endl;
-        for ( auto &i : sequence ) std::cout << i << " ";
+        for (int i=0; i<sequence.size(); i++)
+            std::cout << sequence[i] << " ";
     }
 }
