@@ -1,16 +1,21 @@
 #include <vector>
 #include <iostream>
-#include "../data.h"
 
-void printOutput(std::vector<struct patternResult> result) {
-    for (int i=0; i<result.size(); i++) {
-        for (int j=0; i<result[i].result.size(); j++){
-            std::cout << result[i].result[j].first << "=" << result[i].result[j].second << " ";
+void printOutput(
+    thrust::host_vector<int> output,
+    thrust::host_vector<char> pattern,
+    thrust::host_vector<int> patternMask,
+    int resultsLen, int patternLen
+    ) {
+    for (int i=0; i<resultsLen; i++){
+        int output_idx = i*(patternLen+2);
+
+        for (int j=0; j<patternMask.size(); j++) {
+            if (patternMask[j] == 1) {
+                std::cout << pattern[j] << "=" << output[output_idx] << " ";
+                output_idx++;
+            }
         }
-        std::cout << ": ";
-        for (int j=0; i<result[i].sequence.size(); j++){
-            std::cout << result[i].sequence[j] << " ";
-        }
-        std::cout << std::endl;
+        std::cout << ": [" << output[output_idx] << ":" << output[output_idx+1] << "]" << std::endl;
     }
 }
