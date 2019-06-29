@@ -53,7 +53,7 @@ int main(int argc, char** argv){
                     
         printOutput(output, pattern, patternMask, results.size(), patternLen);
     } catch (const std::exception& e ) {
-        std::cerr << e.what();
+        std::cerr << e.what() << std::endl;
         return 1;
     }
     return 0;
