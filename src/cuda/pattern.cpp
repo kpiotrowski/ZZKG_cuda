@@ -11,12 +11,27 @@ thrust::device_vector<int> devSequence;
 thrust::device_vector<int> tempResults;
 unsigned long long maxResultsLen;
 
-// To check if it works as expected
+/*
+    blockDim: {4, 1, 1}
+    threadIdx: {2, 0, 0}
+    blockIdx: {3, 2, 0}
+    gridDim: {6, 3, 0}
+
+    ....|....|....|....|....|....   24
+    ....|....|....|....|....|....   48
+    ....|....|....|..X.|....|....   63 = index 62
+
+    bx = 3*4+2 = 14
+    by = 2*1 = 2
+    bz = 0
+    
+    14+ 2*6*4 = 14*48 = 62          : OK
+ */
 __device__ unsigned long long threadIndex() {
     int bx = blockIdx.x * blockDim.x + threadIdx.x;
-    int by = blockIdx.y * blockDim.y + threadIdx.y;
-    int bz = blockIdx.z * blockDim.z + threadIdx.z;
-    return bx + (by*gridDim.x) + (bz*gridDim.x*gridDim.y);
+    int by = blockIdx.y * blockDim.y;
+    int bz = blockIdx.z * blockDim.z;
+    return bx + (by*gridDim.x*blockDim.x) + (bz*gridDim.x*blockDim.x*gridDim.y*blockDim.y);
 }
 
 __global__ void pattern_kernel(

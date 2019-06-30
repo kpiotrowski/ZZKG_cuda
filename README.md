@@ -20,4 +20,10 @@ możliwe przypisania dla których wzorzec jest podsekwencjąsekwencji, bądź ty
 (sprawdzi  czy  wzorzecw ogólewystępujew sekwencji).
 ```
 
+## Requirements
+
+- cuda 8.0
+- C++ boost library
+
+
 ![](doc/preview.gif)
